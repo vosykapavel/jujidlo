@@ -9,7 +9,7 @@
       <ul class="list-group">
         <?php
           foreach ($denDnes->getJidla() as $key => $jidlo) {
-              echo "<li class=\"list-group-item\">".htmlspecialchars($jidlo->getTypJidla().": ".$jidlo->getNazev().(($jidlo->getAlergeny()=="")?" (ALERGENY: ".$jidlo->listAlergens().")":""))."</li>\n";
+              echo "<li class=\"list-group-item\">".$jidlo->getTypJidla().": ".$jidlo->getNazev().(($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"")."</li>\n";
           }
          ?>
       </ul>

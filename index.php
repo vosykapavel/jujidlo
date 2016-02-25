@@ -3,7 +3,7 @@
 Jujidlo si klade za cíl přinést víc user-friendly jídelníček
 */
 require('phpQuery.php');
-setlocale(LC_TIME, 'Czech');
+//setlocale(LC_TIME, 'cs_CZ.utf8');
 
 class Dny{
   private $dny = [];
@@ -24,11 +24,15 @@ class Dny{
 }
 
 class Den{
+  private static $ceskeDny = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'];
   private $jidla = [];
   private $datum = "";
+  private $nazevDne = "";
 
   public function __construct($datum){
     $this->datum = $datum;
+    $this->nazevDne = self::$ceskeDny[DateTime::createFromFormat('j.n.Y', $datum)->format('N')-1];
+
   }
 
   public function addJidlo($jidlo){
@@ -40,6 +44,10 @@ class Den{
   public function getDatum(){
     return $this->datum;
   }
+  public function getNazevDne(){
+    return $this->nazevDne;
+  }
+
 }
 /**
  *
