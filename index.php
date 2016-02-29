@@ -21,7 +21,6 @@ class Dny{
       foreach ($this->dny as $key => $den) {//$key =>
         if($this->dny[$key]->getDatum() == $datum){
           return $den;
-          break;
         }
       }
     }
@@ -43,10 +42,20 @@ class Den{
   }
 
   public function addJidlo($jidlo){
+    if(!$this->hasJidlo($jidlo)){
       array_push($this->jidla, $jidlo);
+    }
   }
   public function getJidla(){
       return $this->jidla;
+  }
+  public function hasJidlo($jidlo){
+    foreach ($this->jidla as $key => $j) {
+        if($this->jidla[$key] == $jidlo){
+            return true;
+        }
+    }
+    return false;
   }
   public function getDatum(){
     return $this->datum;
