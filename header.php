@@ -1,7 +1,7 @@
 <?php
 $datumDnes = date('j.n.Y');
 $denDnes = NULL;
-?><ul  role="tablist" class="nav nav-tabs">
+?><ul id="dnyTabs" role="tablist" class="nav nav-tabs">
 
 <?php
   $class = "";

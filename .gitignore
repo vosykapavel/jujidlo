@@ -1,0 +1,11 @@
+# exclude everything except directory foo/bar
+bower_components
+fotky
+jidelnicky
+vendor
+/ftp-deployment
+/deployment.*
+/ftp
+composer*
+gulp*
+bower*
