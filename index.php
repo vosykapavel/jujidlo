@@ -2,11 +2,12 @@
 /*
 Jujidlo si klade za cíl přinést víc user-friendly jídelníček
 */
+mb_internal_encoding("UTF-8");
 require('phpQuery.php');
 //setlocale(LC_TIME, 'cs_CZ.utf8');
 
 class Dny{
-  private $dny = [];
+  private $dny = array();
 
   public function ulozit($den){
       array_push($this->dny, $den);
@@ -24,8 +25,8 @@ class Dny{
 }
 
 class Den{
-  private static $ceskeDny = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'];
-  private $jidla = [];
+  private static $ceskeDny = array('Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle');
+  private $jidla = array();
   private $datum = "";
   private $nazevDne = "";
 
@@ -53,13 +54,13 @@ class Den{
  *
  */
 class Jidelna{
-  private $jidla = [];
+  private $jidla = array();
 
   public function ulozit($jidlo){
       array_push($this->jidla, $jidlo);
   }
   public function getJidla(){
-    $dny = [];
+    $dny = array();
 
       return $this->jidla;
   }

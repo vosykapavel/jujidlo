@@ -9,14 +9,15 @@
       <ul class="list-group">
         <?php
           foreach ($denDnes->getJidla() as $key => $jidlo) {
-              echo "<li class=\"list-group-item\">".$jidlo->getTypJidla().": ".$jidlo->getNazev().(($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"")."</li>\n";
+            // (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"").
+              echo "<li class=\"list-group-item\">".$jidlo->getTypJidla().": ".$jidlo->getNazev()."</li>\n";
           }
          ?>
       </ul>
     </div>
   </div
 </div>
-
+<!--
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -34,3 +35,4 @@
     </div>
   </div>
 </div>
+-->

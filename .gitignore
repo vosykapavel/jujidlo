@@ -9,3 +9,4 @@ vendor
 composer*
 gulp*
 bower*
+/fotky
