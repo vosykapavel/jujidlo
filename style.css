@@ -1,15 +1,19 @@
 .show{
-  display:block;
+    display:block;
 }
 .jidelnicek{
-  display: none;
+    display: none;
 }
 .bezobjednavkova{
-  color: red;
+    color: black;
+    background-color: #42BE00;
+
 }
 .minutka{
-  color: blue;
+    color: black;
+    background-color: #008976;
 }
 .specialita{
-  color: orange;
+    color: black;
+    background-color: #DB2600;
 }
