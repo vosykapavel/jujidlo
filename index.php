@@ -15,6 +15,44 @@ class Dny{
   public function getDny(){
       return $this->dny;
   }
+  public function getTyden(){
+      $r = array();
+      if(!empty($this->dny)){
+        foreach ($this->dny as $key => $den) {//$key =>
+          $datum = strtotime($this->dny[$key]->getDatum());
+          if($datum > strtotime("this week -1 day") && $datum < strtotime("next week") ){
+            array_push($r, $den);
+          }
+        }
+      }
+      return $r;
+    }
+    public function getStareDny(){
+        $r = array();
+        if(!empty($this->dny)){
+          foreach ($this->dny as $key => $den) {//$key =>
+            $datum = strtotime($this->dny[$key]->getDatum());
+            if($datum <= strtotime("this week -1 day")){
+              array_push($r, $den);
+            }
+          }
+        }
+        return $r;
+      }
+      public function getPristiDny(){
+          $r = array();
+          if(!empty($this->dny)){
+            foreach ($this->dny as $key => $den) {//$key =>
+              $datum = strtotime($this->dny[$key]->getDatum());
+              if($datum >= strtotime("next week") ){
+                array_push($r, $den);
+              }
+            }
+          }
+          return $r;
+        }
+
+
   public function getDen($datum){
     if(!empty($this->dny)){
 //      var_dump($this->dny[0]);
@@ -26,7 +64,6 @@ class Dny{
     }
     return false;
   }
-
 }
 
 class Den{
@@ -57,6 +94,15 @@ class Den{
     }
     return false;
   }
+  public function getJidlaTypu($typJidla, $cislaJidla = array()){
+    $pole = array();
+    foreach ($this->jidla as $key => $j) {
+        $typ = $this->jidla[$key]->getTypJidla();
+        if($typ[0] == $typJidla && (!empty($cislaJidla) && in_array($typ[1],$cislaJidla))){
+        }
+    }
+    return false;
+  }
   public function getDatum(){
     return $this->datum;
   }
@@ -65,21 +111,7 @@ class Den{
   }
 
 }
-/**
- *
- */
-class Jidelna{
-  private $jidla = array();
 
-  public function ulozit($jidlo){
-      array_push($this->jidla, $jidlo);
-  }
-  public function getJidla(){
-    $dny = array();
-
-      return $this->jidla;
-  }
-}
 class Jidlo
 {
 
@@ -160,8 +192,11 @@ function parse($url = "http://menza.jcu.cz/Studentska.html"){
     }
   }
 //      echo ucfirst(strftime('%A',DateTime::createFromFormat('j.n.Y', $tdDatum)->format('U')));
-$jidelna = new Jidelna();
+$jidelna = "";//new Jidelna();
 $dny = new Dny();
 parse();
 parse("http://menza.jcu.cz/Minutkova.html");
+//parse("jidelnicky/Studentska.html");
+//parse("jidelnicky/Minutkova.html");
+
 include "template.php";
