@@ -5,15 +5,15 @@
     display: none;
 }
 .bezobjednavkova{
-    color: black;
-    background-color: #42BE00;
+    color: white;
+    background-color: #007E33;
 
 }
 .minutka{
-    color: black;
-    background-color: #008976;
+    color: white;
+    background-color: #0099CC;
 }
 .specialita{
-    color: black;
-    background-color: #DB2600;
+    color: white;
+    background-color: #CC0000;
 }
