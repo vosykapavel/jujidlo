@@ -199,4 +199,8 @@ parse("http://menza.jcu.cz/Minutkova.html");
 //parse("jidelnicky/Studentska.html");
 //parse("jidelnicky/Minutkova.html");
 
-include "template.php";
+if(isset($_GET['json'])){
+  include "json.php";
+}else{
+  include "template.php";
+}
