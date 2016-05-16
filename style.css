@@ -17,3 +17,9 @@
     color: white;
     background-color: #CC0000;
 }
+@media (max-width: 728px) {
+  .reklama img{
+    width: 100%;
+    height: auto;
+  }
+}
