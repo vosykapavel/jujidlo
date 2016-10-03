@@ -1,25 +1,27 @@
-.show{
+.show {
     display:block;
 }
-.jidelnicek{
+
+.jidelnicek {
     display: none;
 }
-.bezobjednavkova{
+
+.bezobjednavkova {
     color: white;
     background-color: #007E33;
-
 }
-.minutka{
+
+.minutka {
     color: white;
     background-color: #0099CC;
 }
-.specialita{
+
+.specialita {
     color: white;
     background-color: #CC0000;
 }
-@media (max-width: 728px) {
-  .reklama img{
-    width: 100%;
-    height: auto;
-  }
+
+.reklama img {
+  width: 100%;
+  height: auto;
 }
