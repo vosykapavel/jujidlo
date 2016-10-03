@@ -25,3 +25,12 @@
   width: 100%;
   height: auto;
 }
+
+.fotacek {
+  float: right;
+  padding-right: 15px;
+}
+
+.fotacek:hover {
+  color: #337ab7;
+}

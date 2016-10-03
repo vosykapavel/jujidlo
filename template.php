@@ -62,6 +62,12 @@ $( document ).ready(function() {
 
   });
 });
+function takePhoto(){
+  alert(
+    "Tímto zmáčknutím jste projevili zájem o naprogramování funkce focení jídla a zobrazování jeho fotek." +
+    " Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
+    ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
+}
 </script>
 </body>
 </html>

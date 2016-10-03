@@ -32,8 +32,8 @@ foreach ($dny->getDny() as $key => $den) {
             // (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"").
             $typ = $jidlo->getTypJidla();
             $class = isset($css[$typ])?$css[$typ]:'';
-
-              echo "<li class=\"list-group-item $class\">".$typ.": ".$jidlo->getNazev()."</li>\n";
+            $fotacek = '<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>';
+              echo "<li class=\"list-group-item $class\">".$typ.": ".$jidlo->getNazev().$fotacek."</li>\n";
           }
          ?>
       </ul>
