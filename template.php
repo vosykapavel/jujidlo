@@ -35,15 +35,19 @@
     </script>
 </head>
 <body>
-<header>
-  <?php include "header.php";?>
-</header>
-<div class="content">
-<?php include "content.php";?>
+
+<div class="container-fluid">
+  <header class="row">
+    <?php include "header.php";?>
+  </header>
+  <div class="content row">
+    <?php include "content.php";?>
+  </div>
+  <footer class="row">
+    <?php include "footer.php";?>
+  </footer>
 </div>
-<footer>
-  <?php include "footer.php";?>
-</footer>
+
 <script>
 $( document ).ready(function() {
   $('.den').click(function (e) {

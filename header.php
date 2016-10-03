@@ -22,7 +22,7 @@ $class = "";
   echo "</ul>";
 */
 
-echo  "<nav>";
+echo  '<nav class="text-center">';
 echo    '<ul class="pagination">';
 
 //echo '<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
