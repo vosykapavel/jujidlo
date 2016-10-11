@@ -42,23 +42,28 @@ foreach ($dny->getDny() as $key => $den) {
 <?php
 }
 ?>
-</div>
-<!--
-<div class="panel-group">
+  <br>
   <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse2">PIZZA</a>
-      </h4>
+  <div class="panel-heading">
+      <span class="panel-title">A jaká že ta pizza může být?</span>
+    <div style="float:right">
+      <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+      <span>Minutková&nbsp;</span>
+      <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+      <span>9:30 - 13:30</span>
     </div>
-    <div id="collapse2" class="panel-collapse collapse">
-      <ul class="list-group">
-        <li class="list-group-item">One</li>
-        <li class="list-group-item">Two</li>
-        <li class="list-group-item">Three</li>
-      </ul>
-      <div class="panel-footer">Footer</div>
-    </div>
+</div>
+  <div id="collapse1" class="panel-collapse collapse in">
+    <ul class="list-group">
+      <?php
+
+        foreach ($den->getPizza() as $key => $p) {
+          $fotacek = '<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>';
+            echo "<li class=\"list-group-item\">".$p["nazev"].$fotacek."</li>\n";
+          }
+       ?>
+    </ul>
   </div>
 </div>
--->
+
+</div>

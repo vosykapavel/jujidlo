@@ -68,6 +68,13 @@ function takePhoto(){
     " Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
     ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
 }
+function takePizzaPhoto(){
+  alert(
+    "Fotky pizzy již můžete zasílat na vosykapavel@gmail.com." +
+    " Do it now!");
+    ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'PizzaPhoto.' });
+}
+
 </script>
 </body>
 </html>
