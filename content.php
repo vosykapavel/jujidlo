@@ -13,10 +13,12 @@ foreach ($dny->getDny() as $key => $den) {
 ?>
   <div class="panel panel-default jidelnicek<?=($datum == $datumDnes)?' show':''?>">
     <div class="panel-heading">
-      <h4 class="panel-title">
-        STUDENTSKÁ + MINUTKOVÁ
-      </h4>
-    </div>
+        <span class="panel-title">&nbsp;</span>
+      <div style="float:right">
+        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+        <span>Studentská + Minutková</span>
+      </div>
+  </div>
     <div id="collapse1" class="panel-collapse collapse in">
       <ul class="list-group">
         <?php
@@ -44,15 +46,15 @@ foreach ($dny->getDny() as $key => $den) {
 ?>
   <br>
   <div class="panel panel-default">
-  <div class="panel-heading">
-      <span class="panel-title">A jaká že ta pizza může být?</span>
-    <div style="float:right">
-      <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-      <span>Minutková&nbsp;</span>
-      <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-      <span>9:30 - 13:30</span>
-    </div>
-</div>
+    <div class="panel-heading">
+        <span class="panel-title">A jaká že ta pizza může být?</span>
+      <div style="float:right">
+        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+        <span>Minutková&nbsp;</span>
+        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        <span>9:30 - 13:30</span>
+      </div>
+  </div>
   <div id="collapse1" class="panel-collapse collapse in">
     <ul class="list-group">
       <?php
