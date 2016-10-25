@@ -73,10 +73,11 @@ parse("http://menza.jcu.cz/Minutkova.html");
 //parse("jidelnicky/Minutkova.html");
 
 if (isset($_GET['json'])) {
-	include "json.php";
-} elseif (isset($_GET['latte'])) {
+	echo json_encode($dny, JSON_PRETTY_PRINT);
+	die();
+} else {
 	$latte = new Latte\Engine;
-//	$latte->setTempDirectory('/temp');
+//	$latte->setTempDirectory('/temp'); // caching don't working offline
 	$parameters['tydny'] = array($dny->getStareDny(), $dny->getTyden(), $dny->getPristiDny());
 	$parameters['dny'] = $dny->getDny();
 	$parameters['pizzaList'] = Jidlo::getPizza();
@@ -84,7 +85,5 @@ if (isset($_GET['json'])) {
 	$parameters['datumZitra'] = date('j.n.Y', strtotime("+1 day"));
 
 	$latte->render('templates/homepage.latte', $parameters);
-
-} else {
-	include "template.php";
+	die();
 }

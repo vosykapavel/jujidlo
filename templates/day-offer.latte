@@ -20,7 +20,7 @@
 					{foreach $den->getJidla() as $jidlo}
 						{* (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"") *}
 						<li class="list-group-item {if isset($css[$jidlo->getTypJidla()])} {$css[$jidlo->getTypJidla()]}{/if}">
-							{$jidlo->getTypJidla()} : {$jidlo->getNazev()}
+							{$jidlo->getTypJidla()}: {$jidlo->getNazev()}
 							<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
 						</li>
 					{/foreach}
