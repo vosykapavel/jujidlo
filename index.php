@@ -77,9 +77,12 @@ if (isset($_GET['json'])) {
 } elseif (isset($_GET['latte'])) {
 	$latte = new Latte\Engine;
 //	$latte->setTempDirectory('/temp');
+	$parameters['tydny'] = array($dny->getStareDny(), $dny->getTyden(), $dny->getPristiDny());
 	$parameters['dny'] = $dny->getDny();
+	$parameters['pizzaList'] = Jidlo::getPizza();
 	$parameters['datumDnes'] = date('j.n.Y');
 	$parameters['datumZitra'] = date('j.n.Y', strtotime("+1 day"));
+
 	$latte->render('templates/homepage.latte', $parameters);
 
 } else {
