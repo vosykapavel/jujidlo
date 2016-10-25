@@ -1,0 +1,18 @@
+<nav class="text-center">
+<ul class="pagination">
+	{foreach $dny as $den}
+		{if $den->getDatum() == $datumDnes}
+			{var $text = 'DNES'}
+			{var $active = ' active'}
+		{elseif $den->getDatum() == $datumZitra}
+			{var $text = 'Zítra'}
+		{else}
+			{var $text = ($den->getNazevDne()|truncate:2,'')}
+		{/if}
+		<li class="den{$active}">
+			<span>{$text}</span>
+		</li>
+			{var $active = ''}
+	{/foreach}
+</ul>
+</nav>

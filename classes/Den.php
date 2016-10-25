@@ -4,6 +4,7 @@ class Den implements JsonSerializable {
 	private static $ceskeDny = array('Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle');
 	private $datum = "";
 	private $nazevDne = "";
+	private $budeSpecialita;
 	private $jidla = array();
 	private $pizza = array(
 			array('nazev' => 'Pizza šunková'),
@@ -62,7 +63,19 @@ class Den implements JsonSerializable {
 	public function getNazevDne(){
 		return $this->nazevDne;
 	}
+
+	public function offersSpeciality() {
+		foreach ($this->jidla as $key => $j) {
+			if ($this->jidla[$key]->getTypJidla() == 'Specialita 1'){
+				$this->budeSpecialita = TRUE;
+				return;
+			}
+		}
+		$this->budeSpecialita = FALSE;
+	}
+
 	public function jsonSerialize() {
+		$this->offersSpeciality();
 		return get_object_vars($this);
 	}
 

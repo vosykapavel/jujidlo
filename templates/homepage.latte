@@ -1,0 +1,41 @@
+{layout '@layout.latte'}
+{block body}
+<div class="container-fluid">
+	<header class="row">
+		{include 'days-navigation.latte'}
+	</header>
+	<div class="content row">
+	</div>
+	<footer class="row">
+	</footer>
+</div>
+
+<script>
+$( document ).ready(function() {
+	$('.den').click(function (e) {
+		e.preventDefault()
+		//active
+		var index = $( ".den" ).index( this );
+		$(".jidelnicek.show").removeClass("show");
+		$(".jidelnicek:nth-child("+ parseInt(index+1) +")").addClass("show");
+
+		$(".den.active").removeClass("active");
+		$(this).addClass("active");
+
+	});
+});
+function takePhoto(){
+	alert(
+		"Tímto zmáčknutím jste projevili zájem o naprogramování funkce focení jídla a zobrazování jeho fotek." +
+		" Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
+		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
+}
+function takePizzaPhoto(){
+	alert(
+		"Fotky pizzy již můžete zasílat na vosykapavel@gmail.com." +
+		" Do it now!");
+		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'PizzaPhoto.' });
+}
+
+</script>
+{/block}

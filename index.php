@@ -5,6 +5,7 @@
 spl_autoload_register(function ($class_name) {
 	include "classes/".$class_name.".php";
 });
+require __DIR__ . '/vendor/autoload.php';
 
 mb_internal_encoding("UTF-8");
 require('phpQuery.php');
@@ -71,8 +72,16 @@ parse("http://menza.jcu.cz/Minutkova.html");
 //parse("jidelnicky/Studentskajsonjson.html");
 //parse("jidelnicky/Minutkova.html");
 
-if(isset($_GET['json'])){
+if (isset($_GET['json'])) {
 	include "json.php";
-}else{
+} elseif (isset($_GET['latte'])) {
+	$latte = new Latte\Engine;
+//	$latte->setTempDirectory('/temp');
+	$parameters['dny'] = $dny->getDny();
+	$parameters['datumDnes'] = date('j.n.Y');
+	$parameters['datumZitra'] = date('j.n.Y', strtotime("+1 day"));
+	$latte->render('templates/homepage.latte', $parameters);
+
+} else {
 	include "template.php";
 }

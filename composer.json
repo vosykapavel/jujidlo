@@ -1,17 +1,13 @@
 {
-    "name": "vosykapavel/jujidlo",
-    "description": "Jidelnicek jcu.cz",
-    "require": {
-        "dg/ftp-deployment": "^2.2",
-        "nette/nette": "^2.3",
-        "twitter/bootstrap": "^3.3",
-        "twbs/bootstrap": "^3.3",
-        "nette/sandbox": "^2.3"
-    },
-    "authors": [
-        {
-            "name": "Pavel Vosyka",
-            "email": "vosykapavel@gmail.com"
-        }
-    ]
+		"name": "vosykapavel/jujidlo",
+		"description": "Jidelnicek jcu.cz",
+		"require": {
+				"latte/latte": "^2.4"
+		},
+		"authors": [
+				{
+						"name": "Pavel Vosyka",
+						"email": "vosykapavel@gmail.com"
+				}
+		]
 }
