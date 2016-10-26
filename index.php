@@ -2,13 +2,13 @@
 /*
 	Jujidlo si klade za cíl přinést víc user-friendly jídelníček
 */
+
 spl_autoload_register(function ($class_name) {
 	include "classes/".$class_name.".php";
 });
 require __DIR__ . '/vendor/autoload.php';
 
 mb_internal_encoding("UTF-8");
-require('phpQuery.php');
 //setlocale(LC_TIME, 'cs_CZ.utf8');
 
 function validateDate($date)

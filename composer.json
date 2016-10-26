@@ -2,7 +2,8 @@
 		"name": "vosykapavel/jujidlo",
 		"description": "Jidelnicek jcu.cz",
 		"require": {
-				"latte/latte": "^2.4"
+				"latte/latte": "^2.4",
+				"electrolinux/phpquery": "^0.9.6"
 		},
 		"authors": [
 				{
