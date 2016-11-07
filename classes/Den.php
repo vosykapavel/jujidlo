@@ -40,6 +40,29 @@ class Den implements JsonSerializable {
 		}
 		return false;
 	}
+
+	public function getSerazenaJidla($skupiny) {
+		$jidla = [];
+		foreach ($skupiny as $s) {
+			$jidla = array_merge($jidla, $this->getJidlaZeSkupiny($s));
+		}
+
+		return $jidla;
+	}
+
+	public function getJidlaZeSkupiny($skupina){
+		$jidla = array();
+		foreach ($this->jidla as $key => $j) {
+			$skupiny = $this->jidla[$key]->getSkupiny();
+			foreach ($skupiny as $keyS => $s) {
+				if ($s == $skupina) {
+					array_push($jidla, $this->jidla[$key]);
+				}
+			}
+		}
+		return $jidla;
+	}
+
 	public function getDatum(){
 		return $this->datum;
 	}

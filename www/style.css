@@ -1,36 +1,41 @@
 .show {
-    display:block;
+		display:block;
 }
 
 .jidelnicek {
-    display: none;
+		display: none;
 }
 
 .bezobjednavkova {
-    color: white;
-    background-color: #007E33;
+		color: white;
+		background-color: #007E33;
 }
 
 .minutka {
-    color: white;
-    background-color: #0099CC;
+		color: white;
+		background-color: #0099CC;
 }
 
 .specialita {
-    color: white;
-    background-color: #CC0000;
+		color: white;
+		background-color: #CC0000;
 }
 
 .reklama img {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 
 .fotacek {
-  float: right;
-  padding-right: 15px;
+	float: right;
+	padding-right: 15px;
 }
 
 .fotacek:hover {
-  color: #337ab7;
+	color: #337ab7;
+}
+
+.cena {
+	float: right;
+	padding-right: 20px;
 }

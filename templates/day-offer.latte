@@ -17,11 +17,12 @@
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
 				<ul class="list-group">
-					{foreach $den->getJidla() as $jidlo}
+					{foreach $den->getSerazenaJidla(["snidane", "obed", "vecere"]) as $jidlo}
 						{* (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"") *}
 						<li class="list-group-item {if isset($css[$jidlo->getTypJidla()])} {$css[$jidlo->getTypJidla()]}{/if}">
 							{$jidlo->getTypJidla()}: {$jidlo->getNazev()}
 							<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
+							<span class="cena"> {$jidlo->getCena()},-</span>
 						</li>
 					{/foreach}
 				</ul>
