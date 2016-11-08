@@ -19,3 +19,19 @@
 		{/foreach}
 	</ul>
 </nav>
+
+<script>
+$( document ).ready(function() {
+	$('.den').click(function (e) {
+		e.preventDefault()
+		//active
+		var index = $( ".den" ).index( this );
+		$(".jidelnicek.show").removeClass("show");
+		$(".jidelnicek:nth-child("+ parseInt(index+1) +")").addClass("show");
+
+		$(".den.active").removeClass("active");
+		$(this).addClass("active");
+
+	});
+});
+</script>

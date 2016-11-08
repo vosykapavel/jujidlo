@@ -9,10 +9,11 @@
 	{foreach $dny as $den}
 		<div class="panel panel-default jidelnicek {if $den->getDatum() == $datumDnes} show{/if}">
 			<div class="panel-heading">
-				<span class="panel-title">&nbsp;</span>
-				<div style="float:right">
-					<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-					<span>Studentská + Minutková</span>
+				<div class="row">
+					<div class="col-xs-12 text-right">
+						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+						<span>Studentská + Minutková</span>
+					</div>
 				</div>
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
@@ -20,9 +21,21 @@
 					{foreach $den->getSerazenaJidla(["snidane", "obed", "vecere"]) as $jidlo}
 						{* (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"") *}
 						<li class="list-group-item {if isset($css[$jidlo->getTypJidla()])} {$css[$jidlo->getTypJidla()]}{/if}">
-							{$jidlo->getTypJidla()}: {$jidlo->getNazev()}
-							<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
-							<span class="cena"> {$jidlo->getCena()},-</span>
+							<div class="row">
+								<div class="col-xs-10">
+									{$jidlo->getTypJidla()}: {$jidlo->getNazev()}
+								</div>
+								<div class="col-xs-2">
+									<div class="row">
+										<div class="col-xs-6">
+											{$jidlo->getCena()},-
+										</div>
+										<div class="col-xs-6">
+											<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</li>
 					{/foreach}
 				</ul>
@@ -32,19 +45,29 @@
 	<br>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-				<span class="panel-title">A jaká že ta pizza může být?</span>
-			<div style="float:right">
-				<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-				<span>Minutková&nbsp;</span>
-				<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-				<span>9:30 - 13:30</span>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<span class="panel-title">A jaká že ta pizza může být?</span>
+				</div>
+				<div class="col-xs-12 col-sm-6 text-right">
+					<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+					<span>Minutková&nbsp;</span>
+					<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+					<span>9:30 - 13:30</span>
+				</div>
 			</div>
 		</div>
 		<div id="collapse1" class="panel-collapse collapse in">
 			<ul class="list-group">
 				<li n:foreach="$pizzaList as $pizza" class="list-group-item">
-					{$pizza["nazev"]}
-					<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+					<div class="row">
+						<div class="col-xs-10">
+							{$pizza["nazev"]}
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -53,26 +76,14 @@
 
 
 <script>
-$( document ).ready(function() {
-	$('.den').click(function (e) {
-		e.preventDefault()
-		//active
-		var index = $( ".den" ).index( this );
-		$(".jidelnicek.show").removeClass("show");
-		$(".jidelnicek:nth-child("+ parseInt(index+1) +")").addClass("show");
-
-		$(".den.active").removeClass("active");
-		$(this).addClass("active");
-
-	});
-});
-function takePhoto(){
+function takePhoto() {
 	alert(
 		"Tímto zmáčknutím jste projevili zájem o naprogramování funkce focení jídla a zobrazování jeho fotek." +
 		" Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
 		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
 }
-function takePizzaPhoto(){
+
+function takePizzaPhoto() {
 	alert(
 		"Fotky pizzy již můžete zasílat na vosykapavel@gmail.com." +
 		" Do it now!");
