@@ -3,12 +3,15 @@
 class Den implements JsonSerializable {
 	private static $ceskeDny = array('Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle');
 	private $datum = "";
+	private $tyden = "";
 	private $nazevDne = "";
 	private $budeSpecialita;
 	private $jidla = array();
 
 	public function __construct($datum){
 		$this->datum = $datum;
+		$dt = new DateTime($datum);
+		$this->tyden = (int) $dt->format('W');
 		$this->nazevDne = self::$ceskeDny[DateTime::createFromFormat('j.n.Y', $datum)->format('N')-1];
 
 	}
@@ -66,8 +69,13 @@ class Den implements JsonSerializable {
 	public function getDatum(){
 		return $this->datum;
 	}
+
 	public function getNazevDne(){
 		return $this->nazevDne;
+	}
+
+	public function getTyden(){
+		return $this->tyden;
 	}
 
 	public function offersSpeciality() {

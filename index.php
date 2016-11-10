@@ -78,10 +78,12 @@ if (isset($_GET['json'])) {
 } else {
 	$latte = new Latte\Engine;
 //	$latte->setTempDirectory('/temp'); // caching don't working offline
-	$parameters['tydny'] = array($dny->getStareDny(), $dny->getTyden(), $dny->getPristiDny());
+	$parameters['tydny'] = array($dny->getTydenRelative(-1), $dny->getTydenRelative(0), $dny->getTydenRelative(1));
 	$parameters['dny'] = $dny->getDny();
 	$parameters['pizzaList'] = Jidlo::getPizza();
 	$parameters['datumDnes'] = date('j.n.Y');
+	$dt = new DateTime();
+	$parameters['tydenDnes'] = (int) $dt->format('W');
 	$parameters['datumZitra'] = date('j.n.Y', strtotime("+1 day"));
 
 	$latte->render('templates/homepage.latte', $parameters);

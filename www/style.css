@@ -1,5 +1,9 @@
 .show {
-		display:block;
+		display: block;
+}
+
+.hide-day {
+		display: none !important;
 }
 
 .jidelnicek {

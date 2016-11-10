@@ -1,26 +1,43 @@
+<div class="text-center">
+	<br>
+	<small>Týden: <span class="weekNumber">{$tydenDnes}</span></small>
+</div>
 <nav class="text-center">
 	<ul class="pagination">
+		<li class="previousWeek">
+			<span aria-hidden="true" aria-label="Předchozí týden">&laquo;</span>
+		</li>
 		{foreach $tydny as $tyden}
-			{foreach $tyden as $den}
-				{var $active = ''}
-				{if $den->getDatum() == $datumDnes}
-					{var $text = 'DNES'}
-					{var $active = ' active'}
-				{elseif $den->getDatum() == $datumZitra}
-					{var $text = 'Zítra'}
-				{else}
-					{var $text = ($den->getNazevDne()|truncate:2,'')}
-				{/if}
-				<li class="den{$active}">
-					<span>{$text}</span>
-				</li>
-				{var $active = ''}
-			{/foreach}
+				{foreach $tyden as $den}
+					{var $active = ''}
+					{var $hideDay = ''}
+					{if $den->getTyden() != $tydenDnes}
+						{var $hideDay = ' hide-day'}
+					{/if}
+					{if $den->getDatum() == $datumDnes}
+						{var $text = 'DNES'}
+						{var $active = ' active'}
+					{elseif $den->getDatum() == $datumZitra}
+						{var $text = 'Zítra'}
+					{else}
+						{var $text = ($den->getNazevDne()|truncate:2,'')}
+					{/if}
+					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}">
+						<span>{$text}</span>
+					</li>
+					{var $hideDay = ''}
+					{var $active = ''}
+				{/foreach}
 		{/foreach}
+		<li class="nextWeek">
+			<span aria-hidden="true" aria-label="Následující týden">&raquo;</span>
+		</li>
 	</ul>
 </nav>
 
 <script>
+var tyden = {$tydenDnes};
+
 $( document ).ready(function() {
 	$('.den').click(function (e) {
 		e.preventDefault()
@@ -33,5 +50,42 @@ $( document ).ready(function() {
 		$(this).addClass("active");
 
 	});
+
+	$('.nextWeek').click(function (e) {
+		e.preventDefault()
+		if (!$(this).hasClass('disabled')) {
+			tyden++;
+			refreshDaysNavigation();
+		}
+	});
+
+	$('.previousWeek').click(function (e) {
+		e.preventDefault()
+		if (!$(this).hasClass('disabled')) {
+			tyden--;
+			refreshDaysNavigation();
+		}
+	});
+
+	function refreshDaysNavigation() {
+		if ($(".den[data-tyden='" + parseInt(tyden - 1) + "']").length < 1) {
+			console.log("disabled prev");
+			$('.previousWeek').addClass("disabled");
+		} else {
+			$('.previousWeek').removeClass("disabled");
+		}
+
+		if ($(".den[data-tyden='" + parseInt(tyden + 1) + "']").length < 1) {
+			$('.nextWeek').addClass("disabled");
+		} else {
+			$('.nextWeek').removeClass("disabled");
+		}
+
+		$(".den[data-tyden='" + tyden + "']").removeClass("hide-day");
+		$(".den:not([data-tyden='" + tyden + "'])").addClass("hide-day");
+		$(".weekNumber").text(tyden);
+
+	}
+
 });
 </script>

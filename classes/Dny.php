@@ -12,47 +12,24 @@ class Dny implements JsonSerializable {
 		return $this->dny;
 	}
 
-	public function getTyden() {
-	$r = array();
-	if (!empty($this->dny)) {
-		foreach ($this->dny as $key => $den) {//$key =>
-			$datum = strtotime($this->dny[$key]->getDatum());
-			if($datum > strtotime("this week -1 day") && $datum < strtotime("next week") ){
-				array_push($r, $den);
-			}
-		}
-	}
-	return $r;
-}
-public function getStareDny(){
+	public function getTydenRelative($tyden = 0) {
+		$now = new DateTime('NOW');
+		$tyden += (int) $now->format('W');
+
 		$r = array();
-		if(!empty($this->dny)){
-			foreach ($this->dny as $key => $den) {//$key =>
-				$datum = strtotime($this->dny[$key]->getDatum());
-				if($datum <= strtotime("this week -1 day")){
+		if (!empty($this->dny)) {
+			foreach ($this->dny as $key => $den) {
+				$datum = new DateTime($this->dny[$key]->getDatum());
+				if ((int) $datum->format('W') == $tyden){
 					array_push($r, $den);
 				}
 			}
 		}
 		return $r;
 	}
-	public function getPristiDny(){
-			$r = array();
-			if(!empty($this->dny)){
-				foreach ($this->dny as $key => $den) {//$key =>
-					$datum = strtotime($this->dny[$key]->getDatum());
-					if($datum >= strtotime("next week") ){
-						array_push($r, $den);
-					}
-				}
-			}
-			return $r;
-		}
-
 
 	public function getDen($datum){
 		if(!empty($this->dny)){
-//      var_dump($this->dny[0]);
 			foreach ($this->dny as $key => $den) {//$key =>
 				if($this->dny[$key]->getDatum() == $datum){
 					return $den;
