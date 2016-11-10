@@ -154,7 +154,7 @@ class Jidlo
 				break;
 			case ("Pizza 2") :
 				array_push($this->skupiny, "obed", "pizza");
-				$this->cena["student"] = 42;
+				$this->cena["student"] = 42 + 7;
 				break;
 
 			case ("Večeře 1") :
