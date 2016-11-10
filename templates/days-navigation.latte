@@ -1,6 +1,9 @@
 <div class="text-center">
 	<br>
-	<small>Týden: <span class="weekNumber">{$tydenDnes}</span></small>
+	<small>
+	Týden <span class="weekNumber">{$tydenDnes}</span>
+	<br>
+	<span class="date">{$datumDnes}</span></small>
 </div>
 <nav class="text-center">
 	<ul class="pagination">
@@ -23,7 +26,7 @@
 						{var $text = ($den->getNazevDne()|truncate:2,'')}
 						{var $bigText = $den->getNazevDne()}
 					{/if}
-					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}">
+					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}" data-datum="{$den->getDatum()}">
 						<span class="visible-xs-inline">{$text}</span>
 						<span class="hidden-xs">{$bigText}</span>
 					</li>
@@ -41,6 +44,7 @@
 var tyden = {$tydenDnes};
 
 $( document ).ready(function() {
+
 	$('.den').click(function (e) {
 		e.preventDefault()
 		//active
@@ -50,6 +54,7 @@ $( document ).ready(function() {
 
 		$(".den.active").removeClass("active");
 		$(this).addClass("active");
+		$(".date").text($(this).data("datum"));
 
 	});
 
@@ -86,7 +91,6 @@ $( document ).ready(function() {
 		$(".den[data-tyden='" + tyden + "']").removeClass("hide-day");
 		$(".den:not([data-tyden='" + tyden + "'])").addClass("hide-day");
 		$(".weekNumber").text(tyden);
-
 	}
 
 });
