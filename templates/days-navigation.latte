@@ -15,15 +15,17 @@
 						{var $hideDay = ' hide-day'}
 					{/if}
 					{if $den->getDatum() == $datumDnes}
-						{var $text = 'DNES'}
+						{var $text = $bigText = 'DNES'}
 						{var $active = ' active'}
 					{elseif $den->getDatum() == $datumZitra}
-						{var $text = 'Zítra'}
+						{var $text = $bigText = 'Zítra'}
 					{else}
 						{var $text = ($den->getNazevDne()|truncate:2,'')}
+						{var $bigText = $den->getNazevDne()}
 					{/if}
 					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}">
-						<span>{$text}</span>
+						<span class="visible-xs-inline">{$text}</span>
+						<span class="hidden-xs">{$bigText}</span>
 					</li>
 					{var $hideDay = ''}
 					{var $active = ''}
