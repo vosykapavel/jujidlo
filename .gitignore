@@ -10,3 +10,6 @@ bower*
 /fotky
 .buildpath
 .project
+/nbproject/private/
+/nbproject/
+!/bower_components/
