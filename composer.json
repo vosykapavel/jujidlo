@@ -3,8 +3,15 @@
 		"description": "Jidelnicek jcu.cz",
 		"require": {
 				"latte/latte": "^2.4",
-				"electrolinux/phpquery": "^0.9.6"
-		},
+				"electrolinux/phpquery": "^0.9.6",
+				"doctrine/orm": "2.4.*",
+				"symfony/yaml": "2.*"
+    },
+                "autoload": {
+                                "psr-0": {"": "classes/"}
+
+                },
+                
 		"authors": [
 				{
 						"name": "Pavel Vosyka",
