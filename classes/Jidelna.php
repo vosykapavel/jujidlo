@@ -27,9 +27,17 @@ class Jidelna {
 	 *  @var Jidlo[]
 	 **/
 	protected $jidla;
-    
+	
+	/** 
+	 * @OneToMany(targetEntity="Chod", mappedBy="jidelna")
+	 * @var Chod[]
+	 */
+	protected $chody;
+
+	
 	public function __construct() {
 		$this->jidla = new ArrayCollection();
+		$this->chody = new ArrayCollection();
 	}
 
 	public function getNazev() {
@@ -56,6 +64,18 @@ class Jidelna {
 
 	public function getJidla() {
 		return $this->jidla;
+	}
+
+	/**
+	 * @param Chod $chod
+	 */
+	public function addChod($chod) {
+		$this->chody->add($chod);
+		$chod->setJidelna($this);
+	}
+
+	public function getChody() {
+		return $this->chody;
 	}
 
 	public function getDny() {

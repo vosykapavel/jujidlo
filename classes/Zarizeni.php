@@ -10,15 +10,21 @@ use Doctrine\Common\Collections\ArrayCollection;
  **/
 class Zarizeni {
 
-	/** @Id @Column(type="integer") @GeneratedValue **/
+	/**
+	 * @Id @Column(type="integer")
+	 * @GeneratedValue
+	 */
 	protected $id;
 
-	/** @Column **/
+	/**
+	 * @Column
+	 */
 	private $nazev;
 
-	/** @OneToMany(targetEntity="Jidelna", mappedBy="zarizeni") 
-	 *  @var Jidelna[]
-	 **/
+	/** 
+	 * @OneToMany(targetEntity="Jidelna", mappedBy="zarizeni") 
+	 * @var Jidelna[]
+	 */
 	protected $jidelny;
     
 	public function __construct() {

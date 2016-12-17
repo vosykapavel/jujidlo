@@ -5,9 +5,16 @@
  */
 class Fotka {
 
-    /** @Id @Column(type="integer") @GeneratedValue **/
+    /**
+	 * @Id
+	 * @GeneratedValue
+	 * @Column(type="integer")
+	 */
     protected $id;
-
+	
+	/**
+	 * @Column
+	 */
 	protected $nazev;
 
 	/**

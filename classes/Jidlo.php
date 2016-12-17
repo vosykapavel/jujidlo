@@ -3,16 +3,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
- * @Table(uniqueConstraints={@UniqueConstraint(name="jidlo_unique", columns={"recept_id", "datum", "jidelna_id"})})
+ * @Table(uniqueConstraints={@UniqueConstraint(name="jidlo_unique", columns={"recept_id", "datum", "jidelna_id", "chod_id"})})
  */
 class Jidlo {
     
-	/** @Id @Column(type="integer") @GeneratedValue **/
+	/** 
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
+	 */
 	protected $id;
 
-	/** @manyToOne(targetEntity="Recept") 
-	 *  @var Recept
-	 **/
+	/**
+	 * @manyToOne(targetEntity="Chod") 
+	 * @var Chod
+	 */
+	protected $chod;
+	
+	/**
+	 * @manyToOne(targetEntity="Recept") 
+	 * @var Recept
+	 */
 	protected $recept;
 	
 	/** @Column(type="date") **/
@@ -21,7 +32,7 @@ class Jidlo {
 	/** 
 	 *  @ManyToOne(targetEntity="Jidelna", inversedBy="jidla")
 	 *  @var Jidelna
-	 **/
+	 */
 	protected $jidelna;
 
 	/**
@@ -77,6 +88,13 @@ class Jidlo {
 	public function getFotky() {
 		return $this->fotky;
 	}
+	
+	public function getChod() {
+		return $this->chod;
+	}
 
+	public function setChod(Chod $chod) {
+		$this->chod = $chod;
+	}
 
 }

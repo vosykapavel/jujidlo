@@ -38,7 +38,7 @@ if (isset($_GET['json'])) {
 			echo $jidelna->getNazev() . "\n";
 
 			foreach ($jidelna->getJidla() as $keyJo => $jidlo) {
-				echo $jidlo->getDatum()->format('Y-m-d') . ": " . $jidlo->getRecept()->getNazev() . "\n";
+				echo $jidlo->getDatum()->format('Y-m-d') . ": " . $jidlo->getChod()->getNazev() . " - " . $jidlo->getRecept()->getNazev() . "\n";
 			}
 
 		}
