@@ -5,30 +5,49 @@
 	'Minutka 2' => 'minutka',
 	'Specialita 1' => 'specialita',
 )}
-<div class="panel-group col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-	{foreach $dny as $den}
-		<div class="panel panel-default jidelnicek {if $den->getDatum() == $datumDnes} show{/if}">
+<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+	{foreach $jidelny as $jidelna}
+		<div class="panel panel-default jidelnicek">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-xs-12 text-right">
+					<div class="col-xs-6">
 						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-						<span>Studentská + Minutková</span>
+						<span>{$jidelna->getNazev()}</span>
+					</div>
+					<div class="col-xs-6 text-right">
+						<button class="btn btn-default btn-sm" onclick="prizpusobit({$jidelna->getId()})">
+							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							<span>Přizpůsobit</span>
+						</button>
 					</div>
 				</div>
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
 				<ul class="list-group">
-					{foreach $den->getSerazenaJidla(["snidane", "obed", "vecere"]) as $jidlo}
+					{foreach $jidelna->getJidla() as $jidlo}
 						{* (($jidlo->getAlergeny()!="")?" (ALERGENY: ".$jidlo->listAlergens().")":"") *}
-						<li class="list-group-item {if isset($css[$jidlo->getTypJidla()])} {$css[$jidlo->getTypJidla()]}{/if}">
+						<li class="list-group-item jidlo{if $jidlo->getDatum()->format('Y-m-d') == $datumDnes} show{/if}" data-datum="{$jidlo->getDatum()->format(DateTime::ATOM)}" data-id="{$jidlo->getId()}">
 							<div class="row">
 								<div class="col-xs-10">
-									{$jidlo->getTypJidla()}: {$jidlo->getNazev()}
+									<div class="row">
+										<div class="col-sm-12">
+											{$jidlo->getRecept()->getNazev()}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<small>
+											<span class="glyphicon glyphicon-time text-muted" aria-hidden="true"></span>
+											<span class="text-muted">{$jidlo->getVydejOd()->format('H:i')} - {$jidlo->getVydejDo()->format('H:i')}</span>
+											<span class="label label-default{if isset($css[$jidlo->getChod()->getNazev()])} {$css[$jidlo->getChod()->getNazev()]}{/if}">{$jidlo->getChod()->getNazev()}</span>
+											</small>
+										</div>
+									</div>
 								</div>
 								<div class="col-xs-2">
 									<div class="row">
 										<div class="col-xs-6">
-											{$jidlo->getCena()},-
+											{$jidlo->getChod()->getCena()},-
 										</div>
 										<div class="col-xs-6">
 											<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
@@ -42,8 +61,10 @@
 			</div>
 		</div>
 	{/foreach}
-	<br>
-	<div class="panel panel-default">
+	<div class="alert alert-info no-day">
+		<span>Dneska Vám nedají najíst v žádné jídelně.</span>
+	</div>
+	<div class="panel panel-default pizza-list">
 		<div class="panel-heading">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
@@ -59,10 +80,110 @@
 		</div>
 		<div id="collapse1" class="panel-collapse collapse in">
 			<ul class="list-group">
-				<li n:foreach="$pizzaList as $pizza" class="list-group-item">
+				<li class="list-group-item">
 					<div class="row">
 						<div class="col-xs-10">
-							{$pizza["nazev"]}
+							Pizza šunková
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza šunková se žampiony
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza šunková s ananasem
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza šunková s brokolicí
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza salámová
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza zeleninová
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza sýrová
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza špenátová se zakysanou smetanou
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza špenátová se šunkou a smetannou
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza tuňáková
+						</div>
+						<div class="col-xs-2 text-right">
+							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+						</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-xs-10">
+							Pizza s česnekem a sýrem
 						</div>
 						<div class="col-xs-2 text-right">
 							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
@@ -76,18 +197,17 @@
 
 
 <script>
+function prizpusobit(jidelna) {
+	alert(
+		"Ještě na tom dělám, ale až to bude plně fungovat, budete si zde moci přizpůsobit zobrazování/skrývání vybraných chodů pro každou jídelnu zvlášť." +
+		" Díky tomu se při hledání jídla již nebudete muset ztrácet například mezi dietami, pokud o ně nemáte zájem. Každým kliknutím mě trochu popoženete k dokončení funkce.");
+		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Prizpusobit.' });
+	
+}
 function takePhoto() {
 	alert(
 		"Tímto zmáčknutím jste projevili zájem o naprogramování funkce focení jídla a zobrazování jeho fotek." +
 		" Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
 		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
 }
-
-function takePizzaPhoto() {
-	alert(
-		"Fotky pizzy již můžete zasílat na vosykapavel@gmail.com." +
-		" Do it now!");
-		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'PizzaPhoto.' });
-}
-
 </script>

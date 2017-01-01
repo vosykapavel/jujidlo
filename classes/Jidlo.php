@@ -1,11 +1,12 @@
 <?php
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
  * @Table(uniqueConstraints={@UniqueConstraint(name="jidlo_unique", columns={"recept_id", "datum", "jidelna_id", "chod_id"})})
  */
-class Jidlo {
+class Jidlo implements JsonSerializable {
     
 	/** 
 	 * @Id
@@ -28,6 +29,15 @@ class Jidlo {
 	
 	/** @Column(type="date") **/
     protected $datum;
+
+	/** @Column(type="datetime", nullable=true) */
+    protected $vydejOd;
+
+	/** @Column(type="datetime", nullable=true) */
+	protected $vydejDo;
+
+	/** @Column(nullable=true) */
+    protected $cena;
 
 	/** 
 	 *  @ManyToOne(targetEntity="Jidelna", inversedBy="jidla")
@@ -95,6 +105,47 @@ class Jidlo {
 
 	public function setChod(Chod $chod) {
 		$this->chod = $chod;
+	}
+
+	public function getVydejOd() {
+		return $this->vydejOd;
+	}
+
+	public function getVydejDo() {
+		return $this->vydejDo;
+	}
+
+	public function getCena() {
+		return $this->cena;
+	}
+
+	public function setVydejOd($vydejOd) {
+		$this->vydejOd = $vydejOd;
+		return $this;
+	}
+
+	public function setVydejDo($vydejDo) {
+		$this->vydejDo = $vydejDo;
+		return $this;
+	}
+
+	public function setCena($cena) {
+		$this->cena = $cena;
+		return $this;
+	}
+
+		public function jsonSerialize() {
+		return [
+			"id" => $this->getId(),
+			"datum" => $this->getDatum()->format(DateTime::ATOM),
+			"nazev" => $this->getRecept()->getNazev(),
+			"chod" => $this->getChod()->getNazev(),
+			"jidelna" => $this->getJidelna()->getNazev(),
+			"vydejOd" => $this->getVydejOd()->format(DateTime::ATOM),
+			"vydejDo" => $this->getVydejDo()->format(DateTime::ATOM),
+			"cena" => $this->getChod()->getCena(),
+			"fotky" => $this->getFotky(), 
+		];
 	}
 
 }

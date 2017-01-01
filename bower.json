@@ -15,6 +15,7 @@
   "dependencies": {
     "Croppie": "croppie#^2.4.0",
     "jquery": "^3.1.1",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "moment": "^2.17.1"
   }
 }

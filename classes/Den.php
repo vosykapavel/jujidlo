@@ -1,23 +1,21 @@
 <?php
 
 class Den implements JsonSerializable {
-	private static $ceskeDny = array('Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle');
-	private $datum = "";
-	private $tyden = "";
-	private $nazevDne = "";
-	private $budeSpecialita;
-	private $jidla = array();
+	private static $ceskeDny = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'];
+	/* @var DateTime */
+	private $datum;
+	private $tyden;
+	private $nazevDne;
+	private $jidla = [];
 
-	public function __construct($datum){
+	public function __construct($datum) {
 		$this->datum = $datum;
-		$dt = new DateTime($datum);
-		$this->tyden = (int) $dt->format('W');
-		$this->nazevDne = self::$ceskeDny[DateTime::createFromFormat('j.n.Y', $datum)->format('N')-1];
-
+		$this->tyden = (int) $this->datum->format('W');
+		$this->nazevDne = self::$ceskeDny[$datum->format('N')-1];
 	}
 
-	public function addJidlo($jidlo){
-		if(!$this->hasJidlo($jidlo)){
+	public function addJidlo($jidlo) {
+		if (!$this->hasJidlo($jidlo)) {
 			array_push($this->jidla, $jidlo);
 		}
 	}
@@ -28,17 +26,17 @@ class Den implements JsonSerializable {
 
 	public function hasJidlo($jidlo) {
 		foreach ($this->jidla as $key => $j) {
-			if($this->jidla[$key] == $jidlo){
+			if ($this->jidla[$key] == $jidlo) {
 				return true;
 			}
 		}
 		return false;
 	}
-	public function getJidlaTypu($typJidla, $cislaJidla = array()){
+	public function getJidlaTypu($typJidla, $cislaJidla = []){
 		$pole = array();
 		foreach ($this->jidla as $key => $j) {
 			$typ = $this->jidla[$key]->getTypJidla();
-			if($typ[0] == $typJidla && (!empty($cislaJidla) && in_array($typ[1],$cislaJidla))){
+			if ($typ[0] == $typJidla && (!empty($cislaJidla) && in_array($typ[1], $cislaJidla))) {
 			}
 		}
 		return false;
@@ -78,19 +76,38 @@ class Den implements JsonSerializable {
 		return $this->tyden;
 	}
 
-	public function offersSpeciality() {
-		foreach ($this->jidla as $key => $j) {
-			if ($this->jidla[$key]->getTypJidla() == 'Specialita 1'){
-				$this->budeSpecialita = TRUE;
-				return;
-			}
-		}
-		$this->budeSpecialita = FALSE;
-	}
-
 	public function jsonSerialize() {
-		$this->offersSpeciality();
-		return get_object_vars($this);
+		return [
+			"datum" => $this->getDatum()->format(DateTime::ATOM),
+			"nazevDne" => $this->getNazevDne(),
+			"tyden" => $this->getTyden(),
+			"jidla" => $this->getJidla(),
+		];
 	}
-
+	
+	/**
+	 * 
+	 * @param Jidla[] $jidla
+	 */
+	public static function getDnyZJidel($jidla) {
+		$dny = [];
+		/* @var $jidlo Jidlo */
+		foreach ($jidla as $keyJ => $jidlo) {
+			/* @var Den */	
+			$den = null; 
+			/* @var $d Den */
+			foreach ($dny as $keyD => $d) {
+				if ($d->getDatum()->format("Y-m-d") == $jidlo->getDatum()->format("Y-m-d")) {
+					$den = $d;
+					break;
+				}
+			}
+			if (!($den instanceof Den)) {
+				$den = new Den($jidlo->getDatum());
+				array_push($dny, $den);
+			}
+			$den->addJidlo($jidlo);
+		}
+		return $dny;
+	}
 }

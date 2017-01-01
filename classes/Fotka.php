@@ -3,7 +3,7 @@
 /**
  * @Entity
  */
-class Fotka {
+class Fotka implements JsonSerializable {
 
     /**
 	 * @Id
@@ -59,6 +59,9 @@ class Fotka {
 
 	public function setJidlo(Jidlo $jidlo) {
 		$this->jidlo = $jidlo;
+	}
+	public function jsonSerialize() {
+		return $this->getNazev();
 	}
 
 }

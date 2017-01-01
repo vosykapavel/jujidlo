@@ -1,32 +1,28 @@
-<div class="text-center">
-	<br>
-	<small>
-	Týden <span class="weekNumber">{$tydenDnes}</span>
-	<br>
-	<span class="date">{$datumDnes}</span></small>
-</div>
+<br>
+<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center">
+		<small><span class="date">{$datumDnes->format('j.n.Y')}</span> | <span class="weekNumber">{$tydenDnes}</span> týden</small>
 <nav class="text-center">
 	<ul class="pagination">
 		<li class="previousWeek">
-			<span aria-hidden="true" aria-label="Předchozí týden">&laquo;</span>
+			<span aria-hidden="true" aria-label="Předchozí týden" title="Předchozí týden">&laquo;</span>
 		</li>
 		{foreach $tydny as $tyden}
-				{foreach $tyden as $den}
+				{foreach $tyden->getDny() as $den}
 					{var $active = ''}
 					{var $hideDay = ''}
 					{if $den->getTyden() != $tydenDnes}
 						{var $hideDay = ' hide-day'}
 					{/if}
-					{if $den->getDatum() == $datumDnes}
+					{if $den->getDatum()->format('j.n.Y') == $datumDnes->format('j.n.Y')}
 						{var $text = $bigText = 'DNES'}
 						{var $active = ' active'}
-					{elseif $den->getDatum() == $datumZitra}
+					{elseif $den->getDatum()->format('j.n.Y') == $datumZitra}
 						{var $text = $bigText = 'Zítra'}
 					{else}
 						{var $text = ($den->getNazevDne()|truncate:2,'')}
 						{var $bigText = $den->getNazevDne()}
 					{/if}
-					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}" data-datum="{$den->getDatum()}">
+					<li class="den{$active}{$hideDay}" data-tyden="{$den->getTyden()}" data-datum="{$den->getDatum()->format(DateTime::ATOM)}">
 						<span class="visible-xs-inline">{$text}</span>
 						<span class="hidden-xs">{$bigText}</span>
 					</li>
@@ -34,27 +30,28 @@
 					{var $active = ''}
 				{/foreach}
 		{/foreach}
+		<li class="no-week disabled">
+			<span>Tento týden není v nabídce žádné jídlo.</span>
+		</li>
 		<li class="nextWeek">
-			<span aria-hidden="true" aria-label="Následující týden">&raquo;</span>
+			<span aria-hidden="true" aria-label="Následující týden" title="Následující týden">&raquo;</span>
 		</li>
 	</ul>
 </nav>
-
+</div>
 <script>
 var tyden = {$tydenDnes};
-
+var datum = moment({$datumDnes->format(DateTime::ATOM)});
 $( document ).ready(function() {
-
 	$('.den').click(function (e) {
 		e.preventDefault()
 		//active
-		var index = $( ".den" ).index( this );
-		$(".jidelnicek.show").removeClass("show");
-		$(".jidelnicek:nth-child("+ parseInt(index+1) +")").addClass("show");
-
+		datum = moment($(this).data("datum")).format();
+		$(".jidlo.show").removeClass("show");
+		$(".jidlo[data-datum='" + datum + "']").addClass("show");
 		$(".den.active").removeClass("active");
 		$(this).addClass("active");
-		$(".date").text($(this).data("datum"));
+		refreshDaysNavigation();
 
 	});
 
@@ -62,6 +59,9 @@ $( document ).ready(function() {
 		e.preventDefault()
 		if (!$(this).hasClass('disabled')) {
 			tyden++;
+			if (tyden > 52) {
+				tyden = 1;
+			}
 			refreshDaysNavigation();
 		}
 	});
@@ -70,27 +70,64 @@ $( document ).ready(function() {
 		e.preventDefault()
 		if (!$(this).hasClass('disabled')) {
 			tyden--;
+			if (tyden < 1) {
+				tyden = 52;
+			}
 			refreshDaysNavigation();
 		}
 	});
 
 	function refreshDaysNavigation() {
+		if ($(".den[data-tyden='" + parseInt(tyden) + "']").length > 0) {
+			$('.no-week').addClass("hide-day");
+		} else {
+			$('.no-week').removeClass("hide-day");
+		}
+
+		if ($(".jidlo[data-datum='" + datum + "']").length > 0) {
+			$('.no-day').addClass("hide-day");
+			$('.pizza-list').removeClass("hide-day");
+			
+		} else {
+			$('.no-day').removeClass("hide-day");
+			$('.pizza-list').addClass("hide-day");
+		}
+		
+		$( ".jidelnicek" ).each(function( index ) {
+			if ($(this).find(".jidlo[data-datum='" + datum + "']").length > 0 ) {
+				$(this).closest(".jidelnicek").removeClass("hide-day");
+			} else {
+				$(this).closest(".jidelnicek").addClass("hide-day");
+			}
+		});
+		
+		
+
+		if ($(".den[data-tyden='" + parseInt(tyden) + "']").length > 0) {
+			$('.no-week').addClass("hide-day");
+		} else {
+			$('.no-week').removeClass("hide-day");
+		}
+
+
 		if ($(".den[data-tyden='" + parseInt(tyden - 1) + "']").length < 1) {
-			console.log("disabled prev");
-			$('.previousWeek').addClass("disabled");
+//			$('.previousWeek').addClass("disabled");
+
 		} else {
 			$('.previousWeek').removeClass("disabled");
 		}
 
 		if ($(".den[data-tyden='" + parseInt(tyden + 1) + "']").length < 1) {
-			$('.nextWeek').addClass("disabled");
+//			$('.nextWeek').addClass("disabled");
 		} else {
 			$('.nextWeek').removeClass("disabled");
 		}
 
 		$(".den[data-tyden='" + tyden + "']").removeClass("hide-day");
 		$(".den:not([data-tyden='" + tyden + "'])").addClass("hide-day");
-		$(".weekNumber").text(tyden);
+		$(".weekNumber").text(tyden + ".");
+		$(".date").text(moment(datum).format('Do MMMM'));
+
 	}
 	refreshDaysNavigation();
 

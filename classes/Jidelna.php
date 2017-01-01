@@ -24,6 +24,7 @@ class Jidelna {
 
 	/**
 	 *  @OneToMany(targetEntity="Jidlo", mappedBy="jidelna") 
+	 *  @OrderBy({"vydejOd" = "ASC"})
 	 *  @var Jidlo[]
 	 **/
 	protected $jidla;
@@ -40,6 +41,10 @@ class Jidelna {
 		$this->chody = new ArrayCollection();
 	}
 
+	public function getId() {
+		return $this->id;
+	}
+		
 	public function getNazev() {
 		return $this->nazev;
 	}
@@ -59,7 +64,7 @@ class Jidelna {
 	/**	@param Jidlo $jidlo **/
 	public function addJidlo($jidlo) {
 		$this->jidla->add($jidlo);
-		$jidlo->setJidelna($this);
+//		$jidlo->setJidelna($this);
 	}
 
 	public function getJidla() {
@@ -77,40 +82,33 @@ class Jidelna {
 	public function getChody() {
 		return $this->chody;
 	}
+	
+	/**
+	 * 
+	 * @param Jidlo[] $jidla
+	 * @return Jidelna[]
+	 */
+	public static function getJidelnyZJidla($jidla) {
+		/* @var Jidelna[] */
+		$jidelny = [];
+		foreach ($jidla as $keyJ => $jidlo) {
 
-	public function getDny() {
-		return $this->dny;
-	}
-
-	public function getTydenRelative($tyden = 0) {
-		$now = new DateTime('NOW');
-		$tyden += (int) $now->format('W');
-
-		$r = array();
-		if (!empty($this->dny)) {
-			foreach ($this->dny as $key => $den) {
-				$datum = new DateTime($this->dny[$key]->getDatum());
-				if ((int) $datum->format('W') == $tyden){
-					array_push($r, $den);
+			/* @var Jidelna */
+			$jidelnaJidla = null;
+			/* @var $jidelna Jidelna */
+			foreach ($jidelny as $keyJi => $jidelna) {
+				if ($jidelna->getId() == $jidlo->getJidelna()->getId()) {
+					$jidelnaJidla = $jidelna;
+					break;
 				}
 			}
-		}
-		return $r;
-	}
-
-	public function getDen($datum) {
-			if (!empty($this->dny)) {
-			foreach ($this->dny as $key => $den) {
-				if ($this->dny[$key]->getDatum() == $datum) {
-					return $den;
-				}
+			if ($jidelnaJidla == null) {
+				$jidelnaJidla = $jidlo->getJidelna();
+				array_push($jidelny, $jidelnaJidla);
 			}
+
 		}
-		return false;
+		return $jidelny;
 	}
 	
-	public function jsonSerialize() {
-		return $this->dny;
-	}
-    
 }

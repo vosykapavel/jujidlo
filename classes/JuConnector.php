@@ -12,7 +12,12 @@ class JuConnector {
 
 	/** @var EntityManager */
     private $entityManager;
+
+	/** @var JidloRepository */
+	private $jidloRepository;
+
 	private $zarizeniNazev = "Menzy Jihočeské univerzity";
+
 	private $konfigurace = [
 			[
 				"nazev" => "Studentská",
@@ -58,35 +63,35 @@ class JuConnector {
 					["Oběd 6", "31", "11:00", "13:00"],
 				]
 			],
-			[
-				"nazev" => "OfflineStudentská",
-				"url" => "offline/Studentska-2016-11-30.html", // there is 132 unique Jidlo
-				"chody" => [
-					["Snídaně 1", "19", "06:30", "08:00"],
-					["Snídaně 2", "19", "06:30", "08:00"],
-
-					["Polévka 1", "8", "11:00", "14:30"],
-
-					["Oběd 1", "21", "11:00", "14:30"],
-					["Oběd 2", "26", "11:00", "14:30"],
-					["Oběd 3", "31", "11:00", "14:30"],
-					["Oběd 4", "21", "11:00", "14:30"],
-					["Oběd 5", "26", "11:00", "14:30"],
-					["Oběd 6", "31", "11:00", "14:30"],
-					["Oběd 7", "31", "11:00", "14:30"],
-					["Oběd 8", "26", "11:00", "14:30"],
-
-					["Specialita 1", "48", "11:15", "13:00"],
-
-					["Dieta 1", "31", "11:00", "14:30"],
-					["Dieta 2", "31", "11:00", "14:30"],
-					["Dieta 3", "31", "11:00", "14:30"],
-					["Dieta 4", "31", "11:00", "14:30"],
-
-					["Večeře 1", "26", "17:30", "19:00"],
-					["Večeře 2", "26", "17:30", "19:00"],
-				]
-			],
+//			[
+//				"nazev" => "OfflineStudentská",
+//				"url" => "offline/Studentska-2016-11-30.html", // there is 132 unique Jidlo
+//				"chody" => [
+//					["Snídaně 1", "19", "06:30", "08:00"],
+//					["Snídaně 2", "19", "06:30", "08:00"],
+//
+//					["Polévka 1", "8", "11:00", "14:30"],
+//
+//					["Oběd 1", "21", "11:00", "14:30"],
+//					["Oběd 2", "26", "11:00", "14:30"],
+//					["Oběd 3", "31", "11:00", "14:30"],
+//					["Oběd 4", "21", "11:00", "14:30"],
+//					["Oběd 5", "26", "11:00", "14:30"],
+//					["Oběd 6", "31", "11:00", "14:30"],
+//					["Oběd 7", "31", "11:00", "14:30"],
+//					["Oběd 8", "26", "11:00", "14:30"],
+//
+//					["Specialita 1", "48", "11:15", "13:00"],
+//
+//					["Dieta 1", "31", "11:00", "14:30"],
+//					["Dieta 2", "31", "11:00", "14:30"],
+//					["Dieta 3", "31", "11:00", "14:30"],
+//					["Dieta 4", "31", "11:00", "14:30"],
+//
+//					["Večeře 1", "26", "17:30", "19:00"],
+//					["Večeře 2", "26", "17:30", "19:00"],
+//				]
+//			],
 		];
 	
 	private $recepty;
@@ -95,6 +100,7 @@ class JuConnector {
 	
 	public function __construct($entityManager) {
 		$this->entityManager = $entityManager;
+		$this->jidloRepository = new JidloRepository($entityManager);
 	}
 	
 	public function run() {
@@ -225,6 +231,7 @@ class JuConnector {
 
 	public function parseJidla(Jidelna $jidelna, $url) {
 		$jidelnicek = str_replace('&nbsp;', '', iconv('WINDOWS-1250', 'UTF-8', file_get_contents($url)));
+//		$jidelnicek = str_replace('&nbsp;', '', file_get_contents($url)); // for offline in ut8
 		$doc = phpQuery::newDocumentHTML($jidelnicek);
 		$rows = $doc["table  tr"];
 		$dateTemp = "";
@@ -233,7 +240,7 @@ class JuConnector {
 			$tr = pq($row);
 			$dateTemp = $tr['td:nth-child(1)']->text();
 
-			if ($this->validateDate($dateTemp)){
+			if ($this->validateDate($dateTemp)) {
 				$datum = DateTime::createFromFormat('j.n.Y', $dateTemp);
 			}
 	
@@ -257,6 +264,16 @@ class JuConnector {
 				$recept = $this->insertRecept($nazev);
 				$j->setRecept($recept);
 				$j->setDatum($datum);
+				$j->setCena($j->getChod()->getCena());
+
+				$od = new DateTime($j->getDatum()->format('Y-m-d'));
+				$od->setTime($j->getChod()->getDenniVydejOd()->format('H'), $j->getChod()->getDenniVydejOd()->format('i'), 0);
+				$j->setVydejOd($od);
+
+				$do = new DateTime($j->getDatum()->format('Y-m-d'));
+				$do->setTime($j->getChod()->getDenniVydejDo()->format('H'), $j->getChod()->getDenniVydejDo()->format('i'), 0);
+					$j->setVydejDo($do);
+
 				$this->insertJidlo($j, $jidelna);
 			}
 		}
