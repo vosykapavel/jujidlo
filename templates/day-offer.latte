@@ -1,12 +1,17 @@
 {var css = array(
 	'Oběd 5' => 'bezobjednavkova',
-	'Oběd 6' => 'bezobjednavkova',
+	'Oběd 6' => 'bezobjednavkova',	
 	'Minutka 1' => 'minutka',
 	'Minutka 2' => 'minutka',
 	'Specialita 1' => 'specialita',
 )}
 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-	{foreach $jidelny as $jidelna}
+	<div class="alert alert-info no-day">
+		<span>Dneska Vám nedají najíst v žádné jídelně.</span>
+	</div>
+</div>
+{foreach $jidelny as $jidelna}
+	<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
 		<div class="panel panel-default jidelnicek">
 			<div class="panel-heading">
 				<div class="row">
@@ -32,6 +37,11 @@
 									<div class="row">
 										<div class="col-sm-12">
 											{$jidlo->getRecept()->getNazev()}
+											{foreach $jidlo->getRecept()->getFotky() as $fotka}
+												<a href="/?image=upload/{$fotka->getNazev()}">
+													<img src="/?image=upload/{$fotka->getNazev()}&w=100&h=100&fit=crop-center" style="height:50px">
+												</a>
+											{/foreach}
 										</div>
 									</div>
 									<div class="row">
@@ -60,10 +70,9 @@
 				</ul>
 			</div>
 		</div>
-	{/foreach}
-	<div class="alert alert-info no-day">
-		<span>Dneska Vám nedají najíst v žádné jídelně.</span>
 	</div>
+{/foreach}
+<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
 	<div class="panel panel-default pizza-list">
 		<div class="panel-heading">
 			<div class="row">
@@ -124,6 +133,9 @@
 					<div class="row">
 						<div class="col-xs-10">
 							Pizza salámová
+							<a href="/?image=pizza/salamova.jpg">
+								<img src="/?image=pizza/salamova.jpg&w=100&h=100&fit=crop-center" style="height:50px">
+							</a>
 						</div>
 						<div class="col-xs-2 text-right">
 							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
@@ -174,6 +186,10 @@
 					<div class="row">
 						<div class="col-xs-10">
 							Pizza tuňáková
+							<a href="/?image=pizza/tunakova.jpg">
+								<img src="/?image=pizza/tunakova.jpg&w=100&h=100&fit=crop-center" style="height:50px">
+							</a>
+
 						</div>
 						<div class="col-xs-2 text-right">
 							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>

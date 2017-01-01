@@ -12,4 +12,4 @@ bower*
 .project
 /nbproject/private/
 /nbproject/
-!/bower_components/
+/www/cache/

@@ -39,6 +39,13 @@ if (isset($_GET['json'])) {
 		echo $jidlo->getDatum()->format('Y-m-d') . ": " . $jidlo->getChod()->getNazev() . " - " . $jidlo->getRecept()->getNazev() . "\n";
 	}
 
+} else if (isset($_GET['image'])) {
+	$server = League\Glide\ServerFactory::create([
+		'source' => 'www/photos',
+		'cache' => 'www/cache/photos',
+	]);
+	$server->outputImage($_GET['image'], $_GET);
+	
 } else if (isset($_GET['show'])) {
 	require_once "bootstrap.php";
 
@@ -60,8 +67,6 @@ if (isset($_GET['json'])) {
 		}
 	}
 } else {
-	
-	
 	$datumMinulePondeli = new DateTime('NOW');
 	$datumMinulePondeli->modify('monday this week');
 	$datumMinulePondeli->modify('-1 week');
@@ -70,17 +75,8 @@ if (isset($_GET['json'])) {
 	$datumPristiNedele->modify('sunday this week');
 	$datumPristiNedele->modify('+1 week');
 
-/*
- 	>createQueryBuilder('e')
-       ->where('e.category = :category')
-        ->setParameter('category', $category)
-        ->orderBy('e.name', 'ASC')
-        ->getQuery()
-        ->getResult()
- */
-
-//	$jidla = $jidloRepository->getJidlaMeziDaty($datumMinulePondeli, $datumPristiNedele);
-	$jidla = $entityManager->getRepository("Jidlo")->findAll();
+	$jidla = $jidloRepository->getJidlaMeziDaty($datumMinulePondeli, $datumPristiNedele);
+	//$jidla = $entityManager->getRepository("Jidlo")->findAll();
 	$dny = Den::getDnyZJidel($jidla);
 	$tydny = Tyden::getTydnyZeDnu($dny);
 
