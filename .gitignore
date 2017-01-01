@@ -13,3 +13,5 @@ bower*
 /nbproject/private/
 /nbproject/
 /www/cache/
+/www/photos/upload/
+/.idea/

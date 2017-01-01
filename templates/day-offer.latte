@@ -6,9 +6,31 @@
 	'Specialita 1' => 'specialita',
 )}
 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-	<div class="alert alert-info no-day">
-		<span>Dneska Vám nedají najíst v žádné jídelně.</span>
+	<div class="alert alert-info no-day alert-dismissable">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span>Dneska Vám nedají najíst v žádné z našich jídelen.</span>
 	</div>
+	<div n:if="empty($_COOKIE[foceniEnabled])" class="alert alert-success alert-dismissable foceniEnabled text-center">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span>
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+			&nbsp; K podávaným jídlům můžete konečně přidávat fotografie! :-) &nbsp;
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+			<i class="glyphicon glyphicon-camera fotacek" aria-hidden="true"></i>
+		</span>
+	</div>
+	<script>
+	$( document ).ready(function() {
+		$('.foceniEnabled').on('close.bs.alert', function() {
+			var date = new Date();
+			date.setFullYear(date.getFullYear() + 10);
+			document.cookie = 'foceniEnabled=1; path=/; expires=' + date.toGMTString();
+		});
+	});
+	</script>
 </div>
 {foreach $jidelny as $jidelna}
 	<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
@@ -38,8 +60,8 @@
 										<div class="col-sm-12">
 											{$jidlo->getRecept()->getNazev()}
 											{foreach $jidlo->getRecept()->getFotky() as $fotka}
-												<a href="/?image=upload/{$fotka->getNazev()}">
-													<img src="/?image=upload/{$fotka->getNazev()}&w=100&h=100&fit=crop-center" style="height:50px">
+												<a class="fancybox" rel="jidlo-{$jidlo->getId()}" href="/?image=upload/{$fotka->getNazev()}" title="{$jidlo->getRecept()->getNazev()}">
+													<img src="/?image=upload/{$fotka->getNazev()}&w=100&h=100&fit=crop-center" style="height:50px" alt="{$jidlo->getRecept()->getNazev()}">
 												</a>
 											{/foreach}
 										</div>
@@ -60,7 +82,12 @@
 											{$jidlo->getChod()->getCena()},-
 										</div>
 										<div class="col-xs-6">
-											<span class="glyphicon glyphicon-camera fotacek" onclick="takePhoto()" aria-hidden="true"></span>
+											<form action="/?upload" method="post" enctype="multipart/form-data" onchange="$(this).submit()">
+												<label class="glyphicon glyphicon-camera fotacek" aria-hidden="true">
+													<input type="file" style="display: none" name="fotka">
+													<input type="hidden" name="id" value="{$jidlo->getId()}">
+												</label>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -95,7 +122,7 @@
 							Pizza šunková
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -105,7 +132,7 @@
 							Pizza šunková se žampiony
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -115,7 +142,7 @@
 							Pizza šunková s ananasem
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -125,7 +152,7 @@
 							Pizza šunková s brokolicí
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -138,7 +165,7 @@
 							</a>
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -148,7 +175,7 @@
 							Pizza zeleninová
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -158,7 +185,7 @@
 							Pizza sýrová
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -168,7 +195,7 @@
 							Pizza špenátová se zakysanou smetanou
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -178,7 +205,7 @@
 							Pizza špenátová se šunkou a smetannou
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -192,7 +219,7 @@
 
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -202,7 +229,7 @@
 							Pizza s česnekem a sýrem
 						</div>
 						<div class="col-xs-2 text-right">
-							<span class="glyphicon glyphicon-camera fotacek fotacek-pizza" onclick="takePizzaPhoto()" aria-hidden="true"></span>
+							 
 						</div>
 					</div>
 				</li>
@@ -220,10 +247,12 @@ function prizpusobit(jidelna) {
 		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Prizpusobit.' });
 	
 }
-function takePhoto() {
-	alert(
-		"Tímto zmáčknutím jste projevili zájem o naprogramování funkce focení jídla a zobrazování jeho fotek." +
-		" Ještě pár takových kliknutí, a ta funkce tu bude co by dup. ;-)");
-		ga('send', 'event', {   'eventCategory': 'Feauture request',   'eventAction': 'Photo.' });
-}
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({
+		openEffect	: 'none',
+		closeEffect	: 'none'
+	});
+});
+
 </script>

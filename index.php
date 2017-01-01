@@ -1,25 +1,15 @@
 <?php
-/*
-	Jujidlo si klade za cíl přinést víc user-friendly jídelníček
-*/
-require __DIR__ . '/vendor/autoload.php';
-
-
-//	$jidelna = "";//new Jidelna();
-//	parse();
-//	parse("http://menza.jcu.cz/Minutkova.html");
+/**
+ *	Jujidlo si klade za cíl přinést víc user-friendly jídelníček
+ */
+	require __DIR__ . '/vendor/autoload.php';
 	require_once "bootstrap.php";
+
 	/** @var JidloRepository */
 	$jidloRepository = new JidloRepository($entityManager);
 
 	/** @var JuConnector */
 	$juConnector = new JuConnector($entityManager);
-
-
-//$zarizeni = $entityManager->getRepository("Zarizeni")->findAll();
-
-// ROUTER
-
 
 if (isset($_GET['json'])) {
 	$jidla = $entityManager->getRepository("Jidlo")->findAll();
@@ -33,39 +23,29 @@ if (isset($_GET['json'])) {
 	die();
 } else if (isset($_GET['juc'])) {
 	$juConnector->run();
-} else if (isset($_GET['den'])) {
-	$jidla = $jidloRepository->getJidlaMeziDatyAndSortByVydejOd("2016-12-16", "2016-12-22");
-	foreach ($jidla as $keyJo => $jidlo) {
-		echo $jidlo->getDatum()->format('Y-m-d') . ": " . $jidlo->getChod()->getNazev() . " - " . $jidlo->getRecept()->getNazev() . "\n";
-	}
-
 } else if (isset($_GET['image'])) {
 	$server = League\Glide\ServerFactory::create([
 		'source' => 'www/photos',
 		'cache' => 'www/cache/photos',
 	]);
 	$server->outputImage($_GET['image'], $_GET);
-	
-} else if (isset($_GET['show'])) {
-	require_once "bootstrap.php";
+} else if (isset($_GET['upload'])) {
+	$uploader = new Uploader("fotka");
+	if ($uploader->getStatus()) {
 
-	$zarizeni = $entityManager->getRepository("Zarizeni")->findAll();
-
-	/* @var $z Zarizeni */
-	foreach ($zarizeni as $keyZ => $z) {
-		echo "Zařízení: " . $z->getNazev();
+		$jidlo = $entityManager->getRepository("Jidlo")->find($_POST['id']);
 		
-		echo "jidelny: \n";
-		/* @var $jidelna Jidelna*/
-		foreach ($z->getJidelny() as $keyJa => $jidelna) {
-			echo $jidelna->getNazev() . "\n";
+		$fotka = new Fotka();
+		$fotka->setJidlo($jidlo);
+		$fotka->setNazev($uploader->getFileName());
+		$fotka->setRecept($jidlo->getRecept());
 
-			foreach ($jidelna->getJidla() as $keyJo => $jidlo) {
-				echo $jidlo->getDatum()->format('Y-m-d') . ": " . $jidlo->getChod()->getNazev() . " - " . $jidlo->getRecept()->getNazev() . "\n";
-			}
-
-		}
+		$entityManager->persist($fotka);
+		$entityManager->flush();
+		$uploader->redirect("/");
 	}
+	echo $uploader->getMessage();
+	
 } else {
 	$datumMinulePondeli = new DateTime('NOW');
 	$datumMinulePondeli->modify('monday this week');
