@@ -60,8 +60,8 @@
 										<div class="col-sm-12">
 											{$jidlo->getRecept()->getNazev()}
 											{foreach $jidlo->getRecept()->getFotky() as $fotka}
-												<a class="fancybox" rel="jidlo-{$jidlo->getId()}" href="/?image=upload/{$fotka->getNazev()}" title="{$jidlo->getRecept()->getNazev()}">
-													<img src="/?image=upload/{$fotka->getNazev()}&w=100&h=100&fit=crop-center" style="height:50px" alt="{$jidlo->getRecept()->getNazev()}">
+												<a class="fancybox" rel="jidlo-{$jidlo->getId()}" href="/?q=70&w=1600&image=upload/{$fotka->getNazev()}" title="{$jidlo->getRecept()->getNazev()}">
+													<img src="/?image=upload/{$fotka->getNazev()}&q=70&w=100&h=100&fit=crop-center" style="height:50px" alt="{$jidlo->getRecept()->getNazev()}">
 												</a>
 											{/foreach}
 										</div>
@@ -160,8 +160,8 @@
 					<div class="row">
 						<div class="col-xs-10">
 							Pizza salámová
-							<a href="/?image=pizza/salamova.jpg">
-								<img src="/?image=pizza/salamova.jpg&w=100&h=100&fit=crop-center" style="height:50px">
+							<a class="fancybox" rel="pizza-salamova" href="/?q=70&w=1600&image=pizza/salamova.jpg" title="Pizza salámová">
+								<img src="/?image=pizza/salamova.jpg&q=70&w=100&h=100&fit=crop-center" style="height:50px">
 							</a>
 						</div>
 						<div class="col-xs-2 text-right">
@@ -213,8 +213,8 @@
 					<div class="row">
 						<div class="col-xs-10">
 							Pizza tuňáková
-							<a href="/?image=pizza/tunakova.jpg">
-								<img src="/?image=pizza/tunakova.jpg&w=100&h=100&fit=crop-center" style="height:50px">
+							<a class="fancybox" rel="pizza-tunakova" href="/?q=70&w=1600&image=pizza/tunakova.jpg" title="Pizza tuňáková">
+								<img src="/?image=pizza/tunakova.jpg&q=70&w=100&h=100&fit=crop-center" style="height:50px">
 							</a>
 
 						</div>

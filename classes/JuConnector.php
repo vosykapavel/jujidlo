@@ -272,7 +272,8 @@ class JuConnector {
 
 				$do = new DateTime($j->getDatum()->format('Y-m-d'));
 				$do->setTime($j->getChod()->getDenniVydejDo()->format('H'), $j->getChod()->getDenniVydejDo()->format('i'), 0);
-					$j->setVydejDo($do);
+				$j->setVydejDo($do);
+				$j->setJidelna($jidelna);
 
 				$this->insertJidlo($j, $jidelna);
 			}
