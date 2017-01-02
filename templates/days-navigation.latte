@@ -42,18 +42,11 @@
 </div>
 <script>
 var tyden = {$tydenDnes};
-var datum = moment({$datumDnes->format(DateTime::ATOM)});
+var datum = moment({$datumDnes->format(DateTime::ATOM)}).format();
 $( document ).ready(function() {
 	$('.den').click(function (e) {
-		e.preventDefault()
-		//active
-		datum = moment($(this).data("datum")).format();
-		$(".jidlo.show").removeClass("show");
-		$(".jidlo[data-datum='" + datum + "']").addClass("show");
-		$(".den.active").removeClass("active");
-		$(this).addClass("active");
-		refreshDaysNavigation();
-
+		e.preventDefault();
+		refreshDayOffer($(this));
 	});
 
 	$('.nextWeek').click(function (e) {
@@ -77,6 +70,16 @@ $( document ).ready(function() {
 			refreshDaysNavigation();
 		}
 	});
+
+	function refreshDayOffer(den) {
+		datum = moment(den.data("datum")).format();
+		$(".jidlo.show").removeClass("show");
+		$(".jidlo[data-datum='" + datum + "']").addClass("show");
+		$(".den.active").removeClass("active");
+		den.addClass("active");
+		refreshDaysNavigation();
+	}
+	refreshDayOffer($(".den.active"));
 
 	function refreshDaysNavigation() {
 		if ($(".den[data-tyden='" + parseInt(tyden) + "']").length > 0) {
@@ -130,7 +133,5 @@ $( document ).ready(function() {
 		$(".date").text(moment(datum).format('Do MMMM'));
 
 	}
-	refreshDaysNavigation();
-
 });
 </script>
